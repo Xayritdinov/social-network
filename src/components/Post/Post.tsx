@@ -14,7 +14,9 @@ export const Post = () => {
       </div>
       <p className="Post__text">Момент умиротворения и спокойствия</p>
       <div className="media-container">
-        {postData.map((item, index) => <div key={index}>{item.picture}</div>)}
+        {postData.map((item, index) =>
+           <div key={index}>{item.picture}</div>
+        )}
       </div>
       <div className="PostControls">
         <div className="icon-wrapper like">
