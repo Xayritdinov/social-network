@@ -1,10 +1,13 @@
+import { Navbar } from "../../components/Navbar/Navbar";
+import { Post } from "../../components/Post/Post";
 import "./MainPage.scss";
 
 export const MainPage = () => {
   return (
     <div className="MainPage">
       <aside className="LeftSide">
-        <nav className="Navbar">
+        <Navbar/>
+        {/* <nav className="Navbar">
           <ul className="navbar__list">
             <li className="navbar__item">
               <svg
@@ -161,7 +164,7 @@ export const MainPage = () => {
               <span className="Badge">100</span>
             </li>
           </ul>
-        </nav>
+        </nav> */}
         <div className="List">
           <div className="List__title">
             <h2>Подписки</h2>
@@ -378,7 +381,8 @@ export const MainPage = () => {
             </div>
           </div>
         </div>
-        <div className="Post _liked _marked">
+        <Post/>
+        {/* <div className="Post _liked _marked">
           <div className="UserElem">
             <img src="./img/users/aleksandr-maykov.jpeg" alt="User" />
             <div className="user__description">
@@ -509,7 +513,7 @@ export const MainPage = () => {
               <circle id="ellipse_3" cx="2.5" cy="2.5" r="2.5" />
             </g>
           </svg>
-        </div>
+        </div> */}
         <div className="Post Repost _liked _marked">
           <div className="UserElem Repost__owner">
             <img src="./img/users/mark-krahmalev.jpeg" alt="User" />
