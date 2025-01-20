@@ -1,10 +1,12 @@
 import { Navbar } from "../../components/Navbar/Navbar";
 import { Post } from "../../components/Post/Post";
+import { Header } from "../../components/UI/Header/Header";
 import "./MainPage.scss";
 
 export const MainPage = () => {
   return (
     <div className="MainPage">
+      <Header/>
       <aside className="LeftSide">
         <Navbar/>
         {/* <nav className="Navbar">

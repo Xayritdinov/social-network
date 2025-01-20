@@ -6,6 +6,9 @@ import { Input } from "../../components/UI";
 import "./LoginPage.scss";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useGetUserByIdQuery, useLogintUserMutation } from "../../store/api/auth.api";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface IloginForm {
   useremail: string;
@@ -23,8 +26,26 @@ export const LoginPage = () => {
     resolver: yupResolver(loginFormSchema), defaultValues: { useremail: "", userpassword: "" }
   });
 
+  const navigate = useNavigate();
+
+  const [loginUser, { data: userData }] = useLogintUserMutation();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId")
+    if (userId) {
+      navigate("/main");
+    }
+  });
+
+  useEffect(() => {
+    if (userData?.user_id) {
+      navigate("/main")
+      localStorage.setItem("userId", JSON.stringify(userData.user_id));
+    }
+  }, [userData]);
+
   const onSubmit: SubmitHandler<IloginForm> = (data) => {
-    console.log(data);
+    loginUser({ email: data.useremail, password: data.userpassword })
   }
 
   return (
@@ -60,7 +81,7 @@ export const LoginPage = () => {
         <Button type="submit" text="Войти" />
       </form>
       <AppLink text="Забыли пароль?" href="#" />
-      <AuthWith />
+      <AuthWith href="/registration" text="Зарегистрироваться" />
     </div>
   );
 };

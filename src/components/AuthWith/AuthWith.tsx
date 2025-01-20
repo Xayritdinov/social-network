@@ -1,9 +1,12 @@
-
-export const AuthWith = () => {
+interface AuthWith {
+  text: string
+  href: string
+}
+export const AuthWith = ({ text, href }: AuthWith) => {
   return (
     <div className="registration">
         <span>
-          У вас нет аккаунта? <a href="#">Зарегистрироваться</a>
+          У вас нет аккаунта? <a href={href}>{text}</a>
         </span>
         <p>Войти с помощью</p>
         <div className="icons-wrapper">

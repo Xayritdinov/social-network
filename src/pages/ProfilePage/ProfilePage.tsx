@@ -1,8 +1,10 @@
+import { Header } from "../../components/UI/Header/Header";
 import "./ProfilePage.scss";
 
 export const ProfilePage = () => {
   return (
     <div className="ProfilePage">
+      <Header/>
       <aside className="LeftSide">
         <nav className="Navbar">
           <ul className="navbar__list">

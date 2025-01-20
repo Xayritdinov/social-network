@@ -6,21 +6,22 @@ import { Input } from "../../components/UI";
 import "./RegistrationPage.scss";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useRegisterUserMutation } from "../../store/api/auth.api";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-interface IloginForm {
+interface IRegistrationForm {
   username: string;
-  usersurname: string;
-  usercity: string;
   useremail: string;
   userphone: string;
   userpassword: string;
+  usercity: string;
 }
 
-const loginFormSchema = yup.object({
+const registrationFormSchema = yup.object({
   useremail: yup.string().email("Веедите почту в правильном формате").required("Обязательное поле"),
   userpassword: yup.string().required("Обязательное поле").min(8, "Минимум 8 символов"),
   username: yup.string().required("Обязательное поле").min(1, "Минимум 8 символов"),
-  usersurname: yup.string().required("Обязательное поле").min(1, "Минимум 8 символов"),
   usercity: yup.string().required("Обязательное поле").min(1, "Минимум 8 символов"),
   userphone: yup.string().required("Обязательное поле").min(9, "Минимум 9 символов")
 });
@@ -28,12 +29,29 @@ const loginFormSchema = yup.object({
 export const RegistrationPage = () => {
 
   const { control, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(loginFormSchema), defaultValues: { username: "", usersurname: "", usercity: "", userphone: "", useremail: "", userpassword: "" }
+    resolver: yupResolver(registrationFormSchema), defaultValues: { username: "", usercity: "", userphone: "", useremail: "", userpassword: "" }
   });
 
-  const onSubmit: SubmitHandler<IloginForm> = (data) => {
-    console.log(data);
-  }
+
+  const navigate = useNavigate()
+  const [registerUser, { data: userData }] = useRegisterUserMutation();
+
+  useEffect(() =>{
+    if(userData?.user_id) {
+      navigate("/main")
+      localStorage.setItem("userId", JSON.stringify(userData.user_id));
+    }
+  }, [userData])
+
+  const onSubmit: SubmitHandler<IRegistrationForm> = (data) => {
+    registerUser({
+      email: data.useremail,
+      name: data.username,
+      phone_number: data.userphone,
+      password: data.userpassword,
+      user_city: data.usercity
+    });
+  };
 
   return (
     <div className="RegistrationPage">
@@ -48,32 +66,6 @@ export const RegistrationPage = () => {
               isError={!!errors.username}
               type="text"
               placeholder="Имя пользователя"
-              {...field}
-            />
-          )}
-        />
-        <Controller
-          name="usersurname"
-          control={control}
-          render={({ field }) => (
-            <Input
-              errorMessage={errors.usersurname?.message}
-              isError={!!errors.usersurname}
-              type="text"
-              placeholder="Фамилия пользователя"
-              {...field}
-            />
-          )}
-        />
-        <Controller
-          name="usercity"
-          control={control}
-          render={({ field }) => (
-            <Input
-              errorMessage={errors.usercity?.message}
-              isError={!!errors.usercity}
-              type="text"
-              placeholder="Город"
               {...field}
             />
           )}
@@ -117,10 +109,23 @@ export const RegistrationPage = () => {
             />
           )}
         />
-        <Button type="submit" text="Войти" />
+        <Controller
+          name="usercity"
+          control={control}
+          render={({ field }) => (
+            <Input
+              errorMessage={errors.usercity?.message}
+              isError={!!errors.usercity}
+              type="text"
+              placeholder="Город"
+              {...field}
+            />
+          )}
+        />
+        <Button type="submit" text="Зарегистрироваться" />
       </form>
       {/* <AppLink text="Забыли пароль?" href="#" /> */}
-      <AuthWith />
+      <AuthWith href="/" text="Авторизоваться" />
     </div>
   );
 };

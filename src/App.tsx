@@ -1,15 +1,35 @@
 
-import { Header } from "./components/UI/Header/Header";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
+import { RegistrationPage } from "./pages/RegistrationPage/RegistrationPage";
+import { MainPage } from "./pages/MainPage/MainPage";
+import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 
+const routerConfig = createBrowserRouter([
+  {
+    path: "/",
+    element: <LoginPage />,
+  },
+  {
+    path: "/registration",
+    element: <RegistrationPage />,
+  },
+  {
+    path: "/main",
+    element: <MainPage />,
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage />,
+  }
+])
 
 
 function App() {
   return (
       <div className="App">
-        <Header />
         <div className="container">
-          <LoginPage />
+        <RouterProvider router={routerConfig} />
         </div>
       </div>
   );
